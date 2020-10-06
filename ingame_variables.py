@@ -1,14 +1,19 @@
 # screen width and height
-swidth, sheight = 1080, 720
+swidth, sheight = 690, 962
+top_bottom_buffer = 50
+mwidth, mheight = swidth-top_bottom_buffer, sheight-top_bottom_buffer
+rows = 38
+collumns = 40
 
 # frmaes per second
 FPS = 60
 
 # color
 intro_scr_color = (55, 60, 0)
-ingame_scr_color = (80, 55, 25)
+ingame_scr_color = (20, 55, 25)
+grid_colour = (107, 107, 107)
 # coordinates
-center = [swidth//2, sheight//2]
+center = [swidth // 2, sheight // 2]
 # font
 star_font_size = 32
 start_font_name = 'arial black'
