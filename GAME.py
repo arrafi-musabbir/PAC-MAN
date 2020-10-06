@@ -1,5 +1,6 @@
 import pygame
 import ingame_variables as iv
+import PLAYER as P
 import sys
 
 pygame.init()
@@ -16,6 +17,8 @@ class Game:
         self.load_maze()
         self.cell_width = iv.mwidth // iv.collumns
         self.cell_height = iv.mheight // iv.rows
+        self.current_score = 0
+        self.player = P.Player(self, iv.PLAYER_START_POS)
 
     def run(self):
         while self.running:
@@ -90,12 +93,29 @@ class Game:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 print("pressed escape")
                 self.running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    self.player.move(vec(-1, 0))
+                if event.key == pygame.K_RIGHT:
+                    self.player.move(vec(1, 0))
+                if event.key == pygame.K_UP:
+                    self.player.move(vec(0, -1))
+                if event.key == pygame.K_DOWN:
+                    self.player.move(vec(0, 1))
 
     def ingame_update(self):
-        pass
+        self.player.update()
 
     def ingame_draw(self):
         self.screen.blit(self.background,
-                         (iv.top_bottom_buffer//2, iv.top_bottom_buffer//2))
+                         (iv.top_bottom_buffer // 2,
+                          iv.top_bottom_buffer // 2))
         self.draw_grid()
+        self.game_text('CURRENT SCORE: {}'.format(self.current_score),
+                       self.screen, [120, 10], 18, iv.WHITE,
+                       iv.start_font_name)
+        self.game_text('HIGH SCORE: 0', self.screen,
+                       [iv.swidth // 2 + 250, 10],
+                       18, iv.WHITE, iv.start_font_name)
+        self.player.appear()
         pygame.display.update()
