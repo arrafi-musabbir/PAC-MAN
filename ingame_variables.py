@@ -28,3 +28,7 @@ start_font_name = 'arial black'
 # player settings
 PLAYER_START_POS = vec(1, 9.5)
 PLAYER_COLOUR = (190, 194, 15)
+
+
+# maze
+maze_path = "PAC-MAN/maze1.png"

@@ -2,7 +2,7 @@ import pygame
 import ingame_variables as iv
 import PLAYER as P
 import sys
-
+# import MAZE as mz
 pygame.init()
 vec = pygame.math.Vector2
 
@@ -19,6 +19,7 @@ class Game:
         self.cell_height = iv.mheight // iv.rows
         self.current_score = 0
         self.player = P.Player(self, iv.PLAYER_START_POS)
+        # self.walls = mz.Maze(iv.maze_path)
 
     def run(self):
         while self.running:
@@ -47,7 +48,7 @@ class Game:
         screen.blit(text, pos)
 
     def load_maze(self):
-        self.background = pygame.image.load('PAC-MAN/maze1.png')
+        self.background = pygame.image.load(iv.maze_path)
         self.background = pygame.transform.scale(self.background,
                                                  (iv.mwidth, iv.mheight))
 
@@ -107,10 +108,7 @@ class Game:
                 if event.key == pygame.K_DOWN:
                     self.player.move(vec(0, 1))
                 if event.key == pygame.K_p:
-                    if vec() is not (0, 0):
-                        self.player.move(vec(0, 0))
-                    else:
-                        self.player.move(vec(-1, 0))
+                    self.player.move(vec(0, 0))
 
     def ingame_update(self):
         self.player.update()
