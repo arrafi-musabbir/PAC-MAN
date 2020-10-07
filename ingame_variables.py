@@ -1,11 +1,11 @@
 from pygame.math import Vector2 as vec
 
 # screen width and height
-swidth, sheight = 690, 962
+swidth, sheight = 850, 850
 top_bottom_buffer = 50
 mwidth, mheight = swidth - top_bottom_buffer, sheight - top_bottom_buffer
 rows = 38
-collumns = 40
+collumns = 38
 
 # frmaes per second
 FPS = 60

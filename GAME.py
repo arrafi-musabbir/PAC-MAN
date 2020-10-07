@@ -13,7 +13,7 @@ class Game:
         self.screen = pygame.display.set_mode((iv.swidth, iv.sheight))
         self.clock = pygame.time.Clock()
         self.running = True
-        self.game = 'start'
+        self.game = 'playing'
         self.load_maze()
         self.cell_width = iv.mwidth // iv.collumns
         self.cell_height = iv.mheight // iv.rows
@@ -61,6 +61,7 @@ class Game:
                              (0, y * self.cell_height),
                              (iv.mwidth, y * self.cell_height))
 #################
+# pregame methods
 
     def pregame_events(self):
         for event in pygame.event.get():
@@ -85,6 +86,9 @@ class Game:
                        [iv.center[0], iv.center[1] + 40],
                        iv.star_font_size, (170, 132, 100), iv.start_font_name)
         pygame.display.update()
+##################
+
+# ingame methods
 
     def ingame_events(self):
         for event in pygame.event.get():
@@ -102,6 +106,11 @@ class Game:
                     self.player.move(vec(0, -1))
                 if event.key == pygame.K_DOWN:
                     self.player.move(vec(0, 1))
+                if event.key == pygame.K_p:
+                    if vec() is not (0, 0):
+                        self.player.move(vec(0, 0))
+                    else:
+                        self.player.move(vec(-1, 0))
 
     def ingame_update(self):
         self.player.update()

@@ -14,16 +14,9 @@ class Player:
 
     def update(self):
         self.pix_pos += self.direction
-        if (int(self.pix_pos.x + iv.top_bottom_buffer // 2) %
-           self.Game.cell_width == 0):
-            if self.direction == vec(1, 0) or self.direction == vec(-1, 0):
-                if self.stored_direction is not None:
-                    self.direction = self.stored_direction
-        if (int(self.pix_pos.y + iv.top_bottom_buffer // 2) %
-           self.Game.cell_height == 0):
-            if self.direction == vec(0, 1) or self.direction == vec(0, -1):
-                if self.stored_direction is not None:
-                    self.direction = self.stored_direction
+        if self.when_to_move():
+            if self.stored_direction is not None:
+                self.direction = self.stored_direction
         self.grid_pos.x = (((self.pix_pos.x
                            - iv.top_bottom_buffer + self.Game.cell_width // 2)
                             // self.Game.cell_width) - 0.1)
@@ -44,6 +37,16 @@ class Player:
 
     def move(self, direction):
         self.stored_direction = direction
+
+    def when_to_move(self):
+        if (int(self.pix_pos.x + iv.top_bottom_buffer // 2) %
+           self.Game.cell_width == 0):
+            if self.direction == vec(1, 0) or self.direction == vec(-1, 0):
+                return True
+        if (int(self.pix_pos.y + iv.top_bottom_buffer // 2) %
+           self.Game.cell_height == 0):
+            if self.direction == vec(0, 1) or self.direction == vec(0, -1):
+                return True
 
     def get_pix_pos(self):
         return vec((self.grid_pos.x * self.Game.cell_width)
