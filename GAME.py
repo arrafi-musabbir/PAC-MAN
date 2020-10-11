@@ -2,7 +2,7 @@ import pygame
 import ingame_variables as iv
 import PLAYER as P
 import sys
-# import MAZE as mz
+import MAZE as mz
 pygame.init()
 vec = pygame.math.Vector2
 
@@ -19,7 +19,7 @@ class Game:
         self.cell_height = iv.mheight // iv.rows
         self.current_score = 0
         self.player = P.Player(self, iv.PLAYER_START_POS)
-        # self.walls = mz.Maze(iv.maze_path)
+        self.arr = mz.Maze().imgarr()
 
     def run(self):
         while self.running:
@@ -99,6 +99,7 @@ class Game:
                 print("pressed escape")
                 self.running = False
             if event.type == pygame.KEYDOWN:
+                # print("here")
                 if event.key == pygame.K_LEFT:
                     self.player.move(vec(-1, 0))
                 if event.key == pygame.K_RIGHT:
@@ -107,8 +108,8 @@ class Game:
                     self.player.move(vec(0, -1))
                 if event.key == pygame.K_DOWN:
                     self.player.move(vec(0, 1))
-                if event.key == pygame.K_p:
-                    self.player.move(vec(0, 0))
+                # if event.key == pygame.K_p:
+                #     self.player.move(vec(0, 0))
 
     def ingame_update(self):
         self.player.update()
@@ -117,7 +118,7 @@ class Game:
         self.screen.blit(self.background,
                          (iv.top_bottom_buffer // 2,
                           iv.top_bottom_buffer // 2))
-        self.draw_grid()
+        # self.draw_grid()
         self.game_text('CURRENT SCORE: {}'.format(self.current_score),
                        self.screen, [120, 10], 18, iv.WHITE,
                        iv.start_font_name)
