@@ -9,14 +9,15 @@ class Maze:
 
     def __init__(self):
         self.img_path = iv.maze_path
+        self.arr = np.zeros([iv.mwidth, iv.mheight])
 
     def mazify(self):
         i = cv.imread(self.img_path, cv.IMREAD_GRAYSCALE)
         res = cv.resize(i, (iv.mwidth, iv.mheight))
-        for i in range(len(res)):
-            for j in range(len(res)):
+        for i in range(iv.mwidth):
+            for j in range(iv.mheight):
                 if res[i][j] > 0:
-                    res[i][j] = 1
+                    res[i][j] = 255
         res[0:15, 0:] = 255
         res[0:, 0:15] = 255
         res[785:800, 0:] = 255
@@ -24,13 +25,13 @@ class Maze:
         # for row in range(len(res)):
         #     for col in range(len(res)):
         #         self.arr[row][col] = res[row][col]
-        # cv.imshow('image', self.arr)
+        # cv.imshow('image', res)
         # cv.waitKey(10000)
         # cv.destroyAllWindows()
+        # print(res[248][70])
         return res
 
     def imgarr(self):
-        self.arr = np.zeros([iv.mwidth, iv.mheight])
         self.arr = self.mazify()
         return self.arr
-# m = Maze(iv.maze_path)
+# m = Maze().mazify()

@@ -14,12 +14,13 @@ class Game:
         self.clock = pygame.time.Clock()
         self.running = True
         self.game = 'playing'
-        self.load_maze()
+        self.walls = list()
+        self.arr = mz.Maze().imgarr()
         self.cell_width = iv.mwidth // iv.collumns
         self.cell_height = iv.mheight // iv.rows
+        self.load_maze()
         self.current_score = 0
         self.player = P.Player(self, iv.PLAYER_START_POS)
-        self.arr = mz.Maze().imgarr()
 
     def run(self):
         while self.running:
@@ -51,6 +52,16 @@ class Game:
         self.background = pygame.image.load(iv.maze_path)
         self.background = pygame.transform.scale(self.background,
                                                  (iv.mwidth, iv.mheight))
+        for i in range(iv.mwidth):
+            for j in range(iv.mheight):
+                if self.arr[i][j] == 255:
+                    self.walls.append(vec(j, i))
+        for wall in self.walls:
+            pygame.draw.rect(self.background, (112, 55, 163),
+                             (wall.x * self.cell_width,
+                              wall.y * self.cell_height,
+                              self.cell_width, self.cell_height))
+#################
 
     def draw_grid(self):
         for x in range(iv.mwidth // self.cell_width):
@@ -61,7 +72,7 @@ class Game:
             pygame.draw.line(self.background, iv.grid_colour,
                              (0, y * self.cell_height),
                              (iv.mwidth, y * self.cell_height))
-#################
+
 # pregame methods
 
     def pregame_events(self):
@@ -99,7 +110,6 @@ class Game:
                 print("pressed escape")
                 self.running = False
             if event.type == pygame.KEYDOWN:
-                # print("here")
                 if event.key == pygame.K_LEFT:
                     self.player.move(vec(-1, 0))
                 if event.key == pygame.K_RIGHT:
@@ -108,8 +118,8 @@ class Game:
                     self.player.move(vec(0, -1))
                 if event.key == pygame.K_DOWN:
                     self.player.move(vec(0, 1))
-                # if event.key == pygame.K_p:
-                #     self.player.move(vec(0, 0))
+                if event.key == pygame.K_p:
+                    self.player.move(vec(0, 0))
 
     def ingame_update(self):
         self.player.update()

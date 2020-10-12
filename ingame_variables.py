@@ -4,8 +4,8 @@ from pygame.math import Vector2 as vec
 swidth, sheight = 850, 850
 top_bottom_buffer = 50
 mwidth, mheight = swidth - top_bottom_buffer, sheight - top_bottom_buffer
-rows = 38
-collumns = 38
+rows = 800
+collumns = 800
 
 # frmaes per second
 FPS = 60
@@ -26,7 +26,7 @@ start_font_name = 'arial black'
 
 
 # player settings
-PLAYER_START_POS = vec(9, 1.2)
+PLAYER_START_POS = vec(19, 15.2)
 PLAYER_COLOUR = (190, 194, 15)
 
 
