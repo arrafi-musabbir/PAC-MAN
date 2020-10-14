@@ -22,16 +22,27 @@ class Maze:
         res[0:, 0:15] = 255
         res[785:800, 0:] = 255
         res[0:, 785:800] = 255
-        # for row in range(len(res)):
-        #     for col in range(len(res)):
-        #         self.arr[row][col] = res[row][col]
-        # cv.imshow('image', res)
-        # cv.waitKey(10000)
-        # cv.destroyAllWindows()
-        # print(res[248][70])
+        self.coined(res)
         return res
 
     def imgarr(self):
         self.arr = self.mazify()
         return self.arr
-# m = Maze().mazify()
+
+    def coined(self, tarr):
+        for i in range(50, iv.mwidth-50, 20):
+            for j in range(50, iv.mheight-49, 20):
+                if tarr[i][j] != 255:
+                    for x in range(i-50, i+50):
+                        for y in range(j-50, j+50):
+                            if tarr[x][y] != 255:
+                                tarr[i][j] = 180
+        return tarr
+
+    def printimg(self):
+        # t = self.imgarr()
+        cv.imshow('image', self.imgarr())
+        cv.waitKey(10000)
+        cv.destroyAllWindows()
+
+m = Maze().printimg()

@@ -16,6 +16,7 @@ ingame_scr_color = (20, 55, 25)
 grid_colour = (107, 107, 107)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
+BLACK = (0, 0, 0)
 # coordinates
 center = [swidth // 2, sheight // 2]
 
@@ -26,7 +27,7 @@ start_font_name = 'arial black'
 
 
 # player settings
-PLAYER_START_POS = vec(19, 15.2)
+PLAYER_START_POS = vec(35, 35)
 PLAYER_COLOUR = (190, 194, 15)
 
 

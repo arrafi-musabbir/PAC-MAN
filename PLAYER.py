@@ -2,8 +2,8 @@ import MAZE as mz
 import pygame
 import ingame_variables as iv
 import GAME
-vec = pygame.math.Vector2
 pygame.init()
+vec = pygame.math.Vector2
 
 
 class Player:
@@ -14,6 +14,7 @@ class Player:
         self.pix_pos = self.get_pix_pos()
         self.direction = vec(1, 0)
         self.stored_direction = None
+        self.move(self.direction)
         self.able_to_move = True
 
     def update(self):
@@ -33,9 +34,8 @@ class Player:
                              + self.Game.cell_height // 2)
                             // self.Game.cell_height) + 0.2)
         print("pix pos ", self.pix_pos)
-        print("Grid pos ", self.grid_pos)
-        print("maze ", self.Game.arr[int(self.pix_pos.y)-25][int(self.pix_pos.x)-25])
-        # print("one")
+        # print("maze ", self.Game.arr[int(self.pix_pos.y) - 25]
+        #                             [int(self.pix_pos.x) - 25])
 
     def appear(self):
         pygame.draw.circle(self.Game.screen, iv.PLAYER_COLOUR,
@@ -49,23 +49,22 @@ class Player:
         #                   self.Game.cell_width, self.Game.cell_height), 1)
 
     def move(self, direction):
-        self.direction = direction
+        self.stored_direction = direction
 
     def can_move(self):
-        if self.Game.arr[int(self.pix_pos.y)-25][int(self.pix_pos.x)-25] == 255:
+        temp = self.pix_pos + self.direction
+        if (self.Game.arr[int(temp[1] - iv.top_bottom_buffer // 2)]
+                [int(temp[0] - iv.top_bottom_buffer // 2)]) == 255:
             return False
-        # for wall in self.Game.walls:
-        #     if vec(self.grid_pos+self.direction) == wall:
-        #         return False
         else:
             return True
 
     def when_to_move(self):
-        if (int(self.pix_pos.x + iv.top_bottom_buffer // 2) %
+        if (int(self.pix_pos.x + (iv.top_bottom_buffer // 2)) %
                 self.Game.cell_width == 0):
             if self.direction == vec(1, 0) or self.direction == vec(-1, 0):
                 return True
-        if (int(self.pix_pos.y + iv.top_bottom_buffer // 2) %
+        if (int(self.pix_pos.y + (iv.top_bottom_buffer // 2)) %
                 self.Game.cell_height == 0):
             if self.direction == vec(0, 1) or self.direction == vec(0, -1):
                 return True

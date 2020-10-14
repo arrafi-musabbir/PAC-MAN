@@ -14,7 +14,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.running = True
         self.game = 'playing'
-        self.walls = list()
+        self.coins = list()
         self.arr = mz.Maze().imgarr()
         self.cell_width = iv.mwidth // iv.collumns
         self.cell_height = iv.mheight // iv.rows
@@ -54,25 +54,17 @@ class Game:
                                                  (iv.mwidth, iv.mheight))
         for i in range(iv.mwidth):
             for j in range(iv.mheight):
-                if self.arr[i][j] == 255:
-                    self.walls.append(vec(j, i))
-        for wall in self.walls:
-            pygame.draw.rect(self.background, (112, 55, 163),
-                             (wall.x * self.cell_width,
-                              wall.y * self.cell_height,
-                              self.cell_width, self.cell_height))
+                if self.arr[i][j] == 180:
+                    self.coins.append(vec(j, i))
+
 #################
 
-    def draw_grid(self):
-        for x in range(iv.mwidth // self.cell_width):
-            pygame.draw.line(self.background, iv.grid_colour,
-                             (x * self.cell_width, 0),
-                             (x * self.cell_width, iv.mheight))
-        for y in range(iv.mheight // self.cell_height):
-            pygame.draw.line(self.background, iv.grid_colour,
-                             (0, y * self.cell_height),
-                             (iv.mwidth, y * self.cell_height))
-
+    def draw_coins(self):
+        for coin in self.coins:
+            pygame.draw.circle(self.screen, (82, 210, 149),
+                               (int(coin.x*self.cell_width) + 25,
+                               int(coin.y*self.cell_height) + 25),
+                               int(self.cell_width) + 4)
 # pregame methods
 
     def pregame_events(self):
@@ -112,23 +104,30 @@ class Game:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     self.player.move(vec(-1, 0))
+                    print("left")
                 if event.key == pygame.K_RIGHT:
                     self.player.move(vec(1, 0))
+                    print("right")
                 if event.key == pygame.K_UP:
                     self.player.move(vec(0, -1))
+                    print("up")
                 if event.key == pygame.K_DOWN:
                     self.player.move(vec(0, 1))
+                    print("down")
                 if event.key == pygame.K_p:
-                    self.player.move(vec(0, 0))
+                    self.player.able_to_move = False
+                    print("pause")
 
     def ingame_update(self):
         self.player.update()
 
     def ingame_draw(self):
+        self.screen.fill(iv.BLACK)
+
         self.screen.blit(self.background,
                          (iv.top_bottom_buffer // 2,
                           iv.top_bottom_buffer // 2))
-        # self.draw_grid()
+        self.draw_coins()
         self.game_text('CURRENT SCORE: {}'.format(self.current_score),
                        self.screen, [120, 10], 18, iv.WHITE,
                        iv.start_font_name)
