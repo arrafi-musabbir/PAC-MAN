@@ -19,7 +19,6 @@ class Game:
         self.cell_width = iv.mwidth // iv.collumns
         self.cell_height = iv.mheight // iv.rows
         self.load_maze()
-        self.current_score = 0
         self.player = P.Player(self, iv.PLAYER_START_POS)
 
     def run(self):
@@ -104,19 +103,19 @@ class Game:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     self.player.move(vec(-1, 0))
-                    print("left")
+                    # print("left")
                 if event.key == pygame.K_RIGHT:
                     self.player.move(vec(1, 0))
-                    print("right")
+                    # print("right")
                 if event.key == pygame.K_UP:
                     self.player.move(vec(0, -1))
-                    print("up")
+                    # print("up")
                 if event.key == pygame.K_DOWN:
                     self.player.move(vec(0, 1))
-                    print("down")
+                    # print("down")
                 if event.key == pygame.K_p:
                     self.player.able_to_move = False
-                    print("pause")
+                    # print("pause")
 
     def ingame_update(self):
         self.player.update()
@@ -128,7 +127,7 @@ class Game:
                          (iv.top_bottom_buffer // 2,
                           iv.top_bottom_buffer // 2))
         self.draw_coins()
-        self.game_text('CURRENT SCORE: {}'.format(self.current_score),
+        self.game_text('CURRENT SCORE: {}'.format(self.player.current_score),
                        self.screen, [120, 10], 18, iv.WHITE,
                        iv.start_font_name)
         self.game_text('HIGH SCORE: 0', self.screen,

@@ -16,6 +16,7 @@ class Player:
         self.stored_direction = None
         self.move(self.direction)
         self.able_to_move = True
+        self.current_score = 0
 
     def update(self):
 
@@ -25,6 +26,8 @@ class Player:
             if self.stored_direction is not None:
                 self.direction = self.stored_direction
             self.able_to_move = self.can_move()
+        if self.on_coins():
+            self.eat_coins()
         self.grid_pos.x = (((self.pix_pos.x
                              - iv.top_bottom_buffer
                              + self.Game.cell_width // 2)
@@ -33,7 +36,8 @@ class Player:
                              - iv.top_bottom_buffer
                              + self.Game.cell_height // 2)
                             // self.Game.cell_height) + 0.2)
-        print("pix pos ", self.pix_pos)
+
+        # print("pix pos ", self.pix_pos)
         # print("maze ", self.Game.arr[int(self.pix_pos.y) - 25]
         #                             [int(self.pix_pos.x) - 25])
 
@@ -50,6 +54,18 @@ class Player:
 
     def move(self, direction):
         self.stored_direction = direction
+
+    def on_coins(self):
+        temp = self.pix_pos - vec(25, 25)
+        if temp in self.Game.coins:
+            self.Game.coins.remove(temp)
+            return True
+        else:
+            return False
+
+    def eat_coins(self):
+        print("eaten")
+        self.current_score += 1
 
     def can_move(self):
         temp = self.pix_pos + self.direction

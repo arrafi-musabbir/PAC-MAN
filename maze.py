@@ -39,10 +39,10 @@ class Maze:
                                 tarr[i][j] = 180
         return tarr
 
-    def printimg(self):
-        # t = self.imgarr()
-        cv.imshow('image', self.imgarr())
-        cv.waitKey(10000)
-        cv.destroyAllWindows()
+    # def printimg(self):
+    #     # t = self.imgarr()
+    #     cv.imshow('image', self.imgarr())
+    #     cv.waitKey(10000)
+    #     cv.destroyAllWindows()
 
-m = Maze().printimg()
+# m = Maze().printimg()
