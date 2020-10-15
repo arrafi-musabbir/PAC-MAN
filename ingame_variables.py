@@ -17,6 +17,7 @@ grid_colour = (107, 107, 107)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
+
 # coordinates
 center = [swidth // 2, sheight // 2]
 
@@ -27,9 +28,12 @@ start_font_name = 'arial black'
 
 
 # player settings
-PLAYER_START_POS = vec(35, 35)
+# PLAYER_START_POS = vec(35, 35)
+PLAYER_START_POS = vec((mheight//2)-25, (mwidth//2)-25)
 PLAYER_COLOUR = (190, 194, 15)
 
-
+# ENEMY
+enemy1_start_pos = vec(35, 35)
+enemy1_colour = (255, 0, 0)
 # maze
 maze_path = "PAC-MAN/maze.png"

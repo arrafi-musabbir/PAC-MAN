@@ -12,7 +12,7 @@ class Player:
         self.Game = Game
         self.grid_pos = pos
         self.pix_pos = self.get_pix_pos()
-        self.direction = vec(1, 0)
+        self.direction = vec(0, -1)
         self.stored_direction = None
         self.move(self.direction)
         self.able_to_move = True
@@ -44,7 +44,7 @@ class Player:
     def appear(self):
         pygame.draw.circle(self.Game.screen, iv.PLAYER_COLOUR,
                            (int(self.pix_pos.x), int(self.pix_pos.y)),
-                           self.Game.cell_width + 5)
+                           self.Game.cell_width + 8)
         # pygame.draw.rect(self.Game.screen, iv.RED,
         #                  ((self.grid_pos.x * self.Game.cell_width)
         #                   + iv.top_bottom_buffer // 1,
@@ -57,14 +57,15 @@ class Player:
 
     def on_coins(self):
         temp = self.pix_pos - vec(25, 25)
-        if temp in self.Game.coins:
-            self.Game.coins.remove(temp)
-            return True
-        else:
-            return False
+        for i in range(int(temp.x-5), int(temp.x+6)):
+            for j in range(int(temp.y-5), int(temp.y+6)):
+                if vec(i, j) in self.Game.coins:
+                    self.Game.coins.remove(vec(i, j))
+                    return True
+                    break
+        return False
 
     def eat_coins(self):
-        print("eaten")
         self.current_score += 1
 
     def can_move(self):

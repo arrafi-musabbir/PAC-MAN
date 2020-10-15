@@ -3,6 +3,7 @@ import ingame_variables as iv
 import PLAYER as P
 import sys
 import MAZE as mz
+import ENEMY as E
 pygame.init()
 vec = pygame.math.Vector2
 
@@ -20,6 +21,9 @@ class Game:
         self.cell_height = iv.mheight // iv.rows
         self.load_maze()
         self.player = P.Player(self, iv.PLAYER_START_POS)
+        self.enemy1 = E.Enemy(self, iv.enemy1_start_pos, iv.enemy1_colour, "r")
+        self.enemies = list()
+        # self.initialize_enemy()
 
     def run(self):
         while self.running:
@@ -61,9 +65,14 @@ class Game:
     def draw_coins(self):
         for coin in self.coins:
             pygame.draw.circle(self.screen, (82, 210, 149),
-                               (int(coin.x*self.cell_width) + 25,
-                               int(coin.y*self.cell_height) + 25),
+                               (int(coin.x * self.cell_width) + 25,
+                                int(coin.y * self.cell_height) + 25),
                                int(self.cell_width) + 4)
+# enemies
+
+    def initialize_enemy(self):
+        self.enemies.append(enemy(self))
+
 # pregame methods
 
     def pregame_events(self):
@@ -113,12 +122,10 @@ class Game:
                 if event.key == pygame.K_DOWN:
                     self.player.move(vec(0, 1))
                     # print("down")
-                if event.key == pygame.K_p:
-                    self.player.able_to_move = False
-                    # print("pause")
 
     def ingame_update(self):
         self.player.update()
+        self.enemy1.update()
 
     def ingame_draw(self):
         self.screen.fill(iv.BLACK)
@@ -134,4 +141,5 @@ class Game:
                        [iv.swidth // 2 + 250, 10],
                        18, iv.WHITE, iv.start_font_name)
         self.player.appear()
+        self.enemy1.appear()
         pygame.display.update()

@@ -1,8 +1,6 @@
 import cv2 as cv
 import numpy as np
 import ingame_variables as iv
-import pygame
-pygame.init()
 
 
 class Maze:
@@ -16,7 +14,9 @@ class Maze:
         res = cv.resize(i, (iv.mwidth, iv.mheight))
         for i in range(iv.mwidth):
             for j in range(iv.mheight):
-                if res[i][j] > 0:
+                if res[i][j] == 255:
+                    res[i][j] = 100
+                if res[i][j] > 0 and res[i][j] != 100:
                     res[i][j] = 255
         res[0:15, 0:] = 255
         res[0:, 0:15] = 255
@@ -39,10 +39,10 @@ class Maze:
                                 tarr[i][j] = 180
         return tarr
 
-    # def printimg(self):
-    #     # t = self.imgarr()
-    #     cv.imshow('image', self.imgarr())
-    #     cv.waitKey(10000)
-    #     cv.destroyAllWindows()
-
+#     def printimg(self):
+#         # t = self.imgarr()
+#         cv.imshow('image', self.imgarr())
+#         cv.waitKey(10000)
+#         cv.destroyAllWindows()
+#
 # m = Maze().printimg()
