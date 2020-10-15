@@ -2,6 +2,7 @@ import pygame
 import GAME
 import ingame_variables as iv
 import random
+import PLAYER as P
 
 vec = pygame.math.Vector2
 
@@ -85,4 +86,14 @@ class Enemy:
             return d
 
     def get_bfs(self):
-        pass
+        start = self.grid_pos
+        goal = self.Game.player.grid_pos
+        queue = start
+        path = list()
+        visited = list()
+        neighbors = [vec(0, 1), vec(1, 0), vec(-1, 0), vec(0, -1)]
+        while queue:
+            current = queue.pop(0)
+            visited.append(current)
+            if current == goal:
+                break
