@@ -2,7 +2,6 @@ import pygame
 import GAME
 import ingame_variables as iv
 import random
-import PLAYER as P
 
 vec = pygame.math.Vector2
 
@@ -16,7 +15,7 @@ class Enemy:
         self.pix_pos = self.get_pix_pos()
         self.direction = vec(1, 0)
         self.personality = personality
-
+        self.fg = 0
     def update(self):
         self.pix_pos += self.direction
         if self.when_to_move():
@@ -45,8 +44,8 @@ class Enemy:
 
     def can_move(self, d):
         temp = self.pix_pos + d
-        if (self.Game.arr[int(temp[1] - iv.top_bottom_buffer // 2)]
-                [int(temp[0] - iv.top_bottom_buffer // 2)]) == 255:
+        if (self.Game.map[(int(temp[0] - iv.top_bottom_buffer // 2)),
+                          (int(temp[1] - iv.top_bottom_buffer // 2))]) == 255:
             return False
         else:
             return True
@@ -86,14 +85,38 @@ class Enemy:
             return d
 
     def get_bfs(self):
-        start = self.grid_pos
-        goal = self.Game.player.grid_pos
-        queue = start
+        start = self.pix_pos
+        goal = self.Game.player.pix_pos
+        queue = [start]
         path = list()
         visited = list()
-        neighbors = [vec(0, 1), vec(1, 0), vec(-1, 0), vec(0, -1)]
+        neighbors = [vec(0, 100), vec(100, 0), vec(-100, 0), vec(0, -100)]
         while queue:
             current = queue.pop(0)
             visited.append(current)
             if current == goal:
                 break
+            else:
+                for neighbor in neighbors:
+                    if ((int(neighbor[0]+self.pix_pos[0] - iv.top_bottom_buffer // 2)) > 0 and (int(neighbor[1]+self.pix_pos[1] - iv.top_bottom_buffer // 2)) > 0):
+                        if self.can_move(neighbor):
+                            next_pixel = current + neighbor
+                            if next_pixel not in visited:
+                                queue.append(next_pixel)
+                                path.append({"current": current,
+                                            "Next cell": next_pixel})
+            self.fg += 1
+            print(self.fg)
+        # print("done")
+        shortest = [goal]
+        while goal != start:
+            if goal == start:
+                break
+            for step in path:
+                if goal == start:
+                    break
+                if step["Next cell"] == goal:
+                    goal = step["current"]
+                    shortest.insert(0, step["current"])
+            # print("yo")
+        return shortest[0]

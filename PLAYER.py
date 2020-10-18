@@ -2,7 +2,7 @@ import MAZE as mz
 import pygame
 import ingame_variables as iv
 import GAME
-pygame.init()
+# pygame.init()
 vec = pygame.math.Vector2
 
 
@@ -70,8 +70,8 @@ class Player:
 
     def can_move(self):
         temp = self.pix_pos + self.direction
-        if (self.Game.arr[int(temp[1] - iv.top_bottom_buffer // 2)]
-                [int(temp[0] - iv.top_bottom_buffer // 2)]) == 255:
+        if (self.Game.map[((int(temp[0] - iv.top_bottom_buffer // 2)),
+                (int(temp[1] - iv.top_bottom_buffer // 2)))]) == 255:
             return False
         else:
             return True

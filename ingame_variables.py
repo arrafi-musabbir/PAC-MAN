@@ -1,11 +1,12 @@
 from pygame.math import Vector2 as vec
+import numpy as np
 
 # screen width and height
 swidth, sheight = 850, 850
 top_bottom_buffer = 50
 mwidth, mheight = swidth - top_bottom_buffer, sheight - top_bottom_buffer
-rows = 800
-collumns = 800
+rows = mwidth
+collumns = mheight
 
 # frmaes per second
 FPS = 60
@@ -29,11 +30,15 @@ start_font_name = 'arial black'
 
 # player settings
 # PLAYER_START_POS = vec(35, 35)
-PLAYER_START_POS = vec((mheight//2)-25, (mwidth//2)-25)
+PLAYER_START_POS = vec((mheight // 2) - 25, (mwidth // 2) - 25)
 PLAYER_COLOUR = (190, 194, 15)
 
 # ENEMY
 enemy1_start_pos = vec(35, 35)
 enemy1_colour = (255, 0, 0)
+enemy2_start_pos = vec(35, 35)
 # maze
-maze_path = "PAC-MAN/maze.png"
+maze_path = "D:/github/PAC-MAN/maze.png"
+maze_npy = "PAC-MAN/maze.npy"
+
+# write maze to a txt

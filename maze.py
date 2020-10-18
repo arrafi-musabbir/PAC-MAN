@@ -2,7 +2,6 @@ import cv2 as cv
 import numpy as np
 import ingame_variables as iv
 
-
 class Maze:
 
     def __init__(self):
@@ -25,9 +24,13 @@ class Maze:
         self.coined(res)
         return res
 
-    def imgarr(self):
-        self.arr = self.mazify()
-        return self.arr
+    # def imgdic(self):
+    #     self.arr = self.mazify()
+    #     dic = dict()
+    #     for x in range(iv.mwidth):
+    #         for y in range(iv.mheight):
+    #             dic[(y, x)] = self.arr[x][y]
+    #     return dic
 
     def coined(self, tarr):
         for i in range(50, iv.mwidth-50, 20):
@@ -39,10 +42,15 @@ class Maze:
                                 tarr[i][j] = 180
         return tarr
 
+    def write_to_txt(self):
+        self.arr = self.mazify()
+        np.save("D:/github/PAC-MAN/maze.npy", self.arr)
+            
 #     def printimg(self):
 #         # t = self.imgarr()
 #         cv.imshow('image', self.imgarr())
 #         cv.waitKey(10000)
 #         cv.destroyAllWindows()
 #
-# m = Maze().printimg()
+m = Maze()
+m.write_to_txt()
