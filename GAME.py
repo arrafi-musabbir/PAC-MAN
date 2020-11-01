@@ -3,7 +3,6 @@ import ingame_variables as iv
 import PLAYER as P
 import MAP
 import sys
-import ENEMY as E
 import smart_enemy as s_e
 
 pygame.init()
