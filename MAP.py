@@ -7,9 +7,10 @@ vec = pygame.math.Vector2
 class Map:
 
     def __init__(self):
-        self.imgarr = np.load(iv.maze_npy)
+        # self.imgarr = np.load(iv.maze_npy)
         self.map_dic = {}
         self.coins = []
+        self.map_tiles = {}
 
     def load_map(self):
         for i in range(len(self.imgarr)):
@@ -18,12 +19,24 @@ class Map:
 
         return self.map_dic
 
-    def load_coins(self):
-        for key in self.map_dic.keys():
-            if self.map_dic[key] == 180:
-                self.coins.append(vec(key))
-        return self.coins
+    def read_tiles(self):
+        lis = list()
+        with open(iv.tiles_txt, "r") as f:
+            for line in f:
+                for i in line:
+                    if i != " " and i != "\n":
+                        lis.append(int(i.strip()))
 
-# m= Map()
-# f = m.load_map()
-# print(f)
+        for i in range(iv.rows):
+            for j in range(iv.collumns):
+                self.map_tiles[(j, i)] = lis.pop(0)
+
+        return self.map_tiles
+
+if __name__ == '__main__':
+    m = Map()
+    f = m.read_tiles()
+    # g = m.load_map()
+    print(f)
+#     print(g)
+    # print(f[2][2])

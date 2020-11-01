@@ -19,8 +19,8 @@ class Maze:
                     res[i][j] = 255
         res[0:15, 0:] = 255
         res[0:, 0:15] = 255
-        res[785:800, 0:] = 255
-        res[0:, 785:800] = 255
+        res[iv.mwidth-15:iv.mwidth, 0:] = 255
+        res[0:, iv.mheight-15:iv.mheight] = 255
         self.coined(res)
         return res
 
@@ -32,25 +32,19 @@ class Maze:
     #             dic[(y, x)] = self.arr[x][y]
     #     return dic
 
-    def coined(self, tarr):
-        for i in range(50, iv.mwidth-50, 20):
-            for j in range(50, iv.mheight-49, 20):
-                if tarr[i][j] != 255:
-                    for x in range(i-50, i+50):
-                        for y in range(j-50, j+50):
-                            if tarr[x][y] != 255:
-                                tarr[i][j] = 180
-        return tarr
 
     def write_to_txt(self):
         self.arr = self.mazify()
         np.save("D:/github/PAC-MAN/maze.npy", self.arr)
-            
-#     def printimg(self):
-#         # t = self.imgarr()
-#         cv.imshow('image', self.imgarr())
-#         cv.waitKey(10000)
-#         cv.destroyAllWindows()
-#
+
+    # def printimg(self):
+    #     t = self.mazify()
+    #     cv.imshow('image', t)
+    #     cv.waitKey(10000)
+    #     cv.destroyAllWindows()
+# #
+
+
 m = Maze()
 m.write_to_txt()
+# m.printimg()

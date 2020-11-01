@@ -1,10 +1,11 @@
 import pygame
 import ingame_variables as iv
-import numpy as np
 import PLAYER as P
 import MAP
 import sys
 import ENEMY as E
+import smart_enemy as s_e
+
 pygame.init()
 vec = pygame.math.Vector2
 M = MAP.Map()
@@ -15,16 +16,21 @@ class Game:
     def __init__(self):
         self.screen = pygame.display.set_mode((iv.swidth, iv.sheight))
         self.clock = pygame.time.Clock()
+        self.game = 'start'
         self.running = True
-        self.map = M.load_map()
-        self.coins = M.load_coins()
-        self.game = 'playing'
+        self.tiles = M.read_tiles()
+        self.coins = list()
+        self.load_coins()
         self.cell_width = iv.mwidth // iv.collumns
         self.cell_height = iv.mheight // iv.rows
         self.load_maze()
         self.player = P.Player(self, iv.PLAYER_START_POS)
-        # self.enemy1 = E.Enemy(self, iv.enemy1_start_pos, iv.enemy1_colour, "r")
-        self.enemy2 = E.Enemy(self, iv.enemy2_start_pos, iv.enemy1_colour, "b")
+        self.enemy1 = s_e.Enemy(
+            self, iv.enemy1_start_pos, iv.enemy1_colour, "d")
+        self.enemy2 = s_e.Enemy(
+            self, iv.enemy2_start_pos, iv.enemy2_colour, "b")
+        self.enemy3 = s_e.Enemy(
+            self, iv.enemy3_start_pos, iv.enemy3_colour, "d")
 
     def run(self):
         while self.running:
@@ -58,14 +64,34 @@ class Game:
                                                  (iv.mwidth, iv.mheight))
 
 #################
+    def load_coins(self):
+        for key in self.tiles:
+            if self.tiles[key] == 0:
+                self.coins.append(key)
 
     def draw_coins(self):
-        for coin in self.coins:
-            pygame.draw.circle(self.screen, (82, 210, 149),
-                               (int(coin.x * self.cell_width) + 25,
-                                int(coin.y * self.cell_height) + 25),
-                               int(self.cell_width) + 4)
+        for key in self.coins:
+            pygame.draw.circle(self.background, (82, 210, 149),
+                               (key[0] * self.cell_width + self.cell_width // 2,
+                                key[1] * self.cell_height + self.cell_height // 2),
+                               self.cell_width // 4)
 
+    def draw_grid(self):
+        for x in range(0, iv.mwidth + 1):
+            pygame.draw.line(self.background, iv.WHITE, (x * self.cell_width, 0),
+                             (x * self.cell_width, iv.mheight))
+        for x in range(0, iv.mheight + 1):
+            pygame.draw.line(self.background, iv.WHITE, (0, x * self.cell_height),
+                             (iv.mwidth, x * self.cell_height))
+
+    def draw_maze(self):
+        for key in self.tiles:
+            if self.tiles[key] == 1:
+                pygame.draw.rect(self.background, (112, 55, 163), (
+                    key[0] * self.cell_width, key[1] * self.cell_height, self.cell_width, self.cell_height))
+            else:
+                pygame.draw.rect(self.background, (0, 0, 0), (
+                    key[0] * self.cell_width, key[1] * self.cell_height, self.cell_width, self.cell_height))
 # pregame methods
 
     def pregame_events(self):
@@ -103,29 +129,40 @@ class Game:
                 print("pressed escape")
                 self.running = False
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    print("pressed escape")
+                    self.running = False
                 if event.key == pygame.K_LEFT:
                     self.player.move(vec(-1, 0))
+                    # self.enemy2.analogue(vec(-1, 0))
                     # print("left")
                 if event.key == pygame.K_RIGHT:
                     self.player.move(vec(1, 0))
+                    # self.enemy2.analogue(vec(1, 0))
                     # print("right")
                 if event.key == pygame.K_UP:
                     self.player.move(vec(0, -1))
+                    # self.enemy2.analogue(vec(0, -1))
                     # print("up")
                 if event.key == pygame.K_DOWN:
                     self.player.move(vec(0, 1))
-                    # print("down")
+                    # self.enemy2.analogue(vec(0, 1))
 
     def ingame_update(self):
         self.player.update()
-        # self.enemy1.update()
+        self.enemy1.update()
         self.enemy2.update()
+        self.enemy3.update()
+        # pass
 
     def ingame_draw(self):
         self.screen.fill(iv.BLACK)
         self.screen.blit(self.background,
                          (iv.top_bottom_buffer // 2,
                           iv.top_bottom_buffer // 2))
+
+        self.draw_maze()
+        # self.draw_grid()
         self.draw_coins()
         self.game_text('CURRENT SCORE: {}'.format(self.player.current_score),
                        self.screen, [120, 10], 18, iv.WHITE,
@@ -134,6 +171,7 @@ class Game:
                        [iv.swidth // 2 + 250, 10],
                        18, iv.WHITE, iv.start_font_name)
         self.player.appear()
-        # self.enemy1.appear()
+        self.enemy1.appear()
         self.enemy2.appear()
+        self.enemy3.appear()
         pygame.display.update()
