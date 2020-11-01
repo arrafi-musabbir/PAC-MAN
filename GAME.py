@@ -154,10 +154,9 @@ class Game:
 
     def ingame_update(self):
         self.player.update()
-        # self.enemy1.update()
-        # self.enemy2.update()
-        # self.enemy3.update()
-        # pass
+        self.enemy1.update()
+        self.enemy2.update()
+        self.enemy3.update()
 
     def ingame_draw(self):
         self.screen.fill(iv.BLACK)
@@ -171,7 +170,7 @@ class Game:
         self.game_text('CURRENT SCORE: {}'.format(self.player.current_score),
                        self.screen, [120, 10], 18, iv.WHITE,
                        iv.start_font_name)
-        # self.game_text('HIGH SCORE: 0', self.screen,
+        # self.game_text('HIGH SCORE: {}'.format(iv.highscore), self.screen,
         #                [iv.swidth // 2 + 250, 10],
         #                18, iv.WHITE, iv.start_font_name)
         self.player.appear()
@@ -189,13 +188,16 @@ class Game:
                 self.running = False
 
     def postgame_draw(self):
-        self.screen.fill(iv.intro_scr_color)
+        self.screen.fill(iv.post_scr_color)
         self.game_text('GAME OVER', self.screen,
-                       [iv.swidth // 2, iv.mwidth // 2 + 50],
-                       30, iv.WHITE, iv.start_font_name)
+                       [iv.swidth // 2, iv.mwidth // 2 - 200],
+                       50, iv.RED, iv.start_font_name)
         self.game_text('SCORE: {}'.format(self.player.current_score), self.screen,
                        [iv.swidth // 2, iv.mwidth // 2 - 50],
                        30, iv.WHITE, iv.start_font_name)
+        self.game_text('PRESS ESCAPE TO QUIT', self.screen,
+                       [iv.swidth // 2, iv.mwidth // 2 + 100],
+                       30, iv.BLACK, iv.start_font_name)
         pygame.display.update()
 
     def postgame_update(self):

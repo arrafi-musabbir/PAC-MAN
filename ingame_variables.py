@@ -14,6 +14,7 @@ FPS = 60
 
 # color
 intro_scr_color = (106, 135, 222)
+post_scr_color = (138, 134, 134)
 ingame_scr_color = (0, 0, 0)
 grid_colour = (107, 107, 107)
 WHITE = (255, 255, 255)
@@ -30,7 +31,6 @@ start_font_name = 'arial black'
 
 
 # player settings
-# PLAYER_START_POS = vec(35, 35)
 PLAYER_START_POS = vec(11.5, 12.5)
 PLAYER_COLOUR = (190, 194, 15)
 

@@ -67,8 +67,6 @@ class Enemy:
             return "dfs"
         if self.personality == "b":
             return "bfs"
-        if self.personality == "a":
-            return "analogue"
 
     def get_bfs(self, enemy, player):
         start = [enemy[0] // self.Game.cell_width,
