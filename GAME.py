@@ -42,6 +42,10 @@ class Game:
                 self.ingame_events()
                 self.ingame_update()
                 self.ingame_draw()
+            elif self.game == 'GameOver':
+                self.postgame_events()
+                self.postgame_update()
+                self.postgame_draw()
             else:
                 self.running = False
             self.clock.tick(iv.FPS)
@@ -71,7 +75,7 @@ class Game:
 
     def draw_coins(self):
         for key in self.coins:
-            pygame.draw.circle(self.background, (82, 210, 149),
+            pygame.draw.circle(self.background, (252, 169, 3),
                                (key[0] * self.cell_width + self.cell_width // 2,
                                 key[1] * self.cell_height + self.cell_height // 2),
                                self.cell_width // 4)
@@ -87,7 +91,7 @@ class Game:
     def draw_maze(self):
         for key in self.tiles:
             if self.tiles[key] == 1:
-                pygame.draw.rect(self.background, (112, 55, 163), (
+                pygame.draw.rect(self.background, (56, 104, 224), (
                     key[0] * self.cell_width, key[1] * self.cell_height, self.cell_width, self.cell_height))
             else:
                 pygame.draw.rect(self.background, (0, 0, 0), (
@@ -112,10 +116,10 @@ class Game:
         self.screen.fill(iv.intro_scr_color)
         self.game_text('WELCOME PLAYER', self.screen,
                        [iv.center[0], iv.center[1] - 50],
-                       iv.star_font_size, (170, 132, 58), iv.start_font_name)
+                       iv.star_font_size, iv.WHITE, iv.start_font_name)
         self.game_text('PRESS SPACE TO PLAY', self.screen,
                        [iv.center[0], iv.center[1] + 40],
-                       iv.star_font_size, (170, 132, 100), iv.start_font_name)
+                       iv.star_font_size, iv.WHITE, iv.start_font_name)
         pygame.display.update()
 ##################
 
@@ -130,7 +134,7 @@ class Game:
                 self.running = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    print("pressed escape")
+                    # print("pressed escape")
                     self.running = False
                 if event.key == pygame.K_LEFT:
                     self.player.move(vec(-1, 0))
@@ -150,9 +154,9 @@ class Game:
 
     def ingame_update(self):
         self.player.update()
-        self.enemy1.update()
-        self.enemy2.update()
-        self.enemy3.update()
+        # self.enemy1.update()
+        # self.enemy2.update()
+        # self.enemy3.update()
         # pass
 
     def ingame_draw(self):
@@ -167,11 +171,32 @@ class Game:
         self.game_text('CURRENT SCORE: {}'.format(self.player.current_score),
                        self.screen, [120, 10], 18, iv.WHITE,
                        iv.start_font_name)
-        self.game_text('HIGH SCORE: 0', self.screen,
-                       [iv.swidth // 2 + 250, 10],
-                       18, iv.WHITE, iv.start_font_name)
+        # self.game_text('HIGH SCORE: 0', self.screen,
+        #                [iv.swidth // 2 + 250, 10],
+        #                18, iv.WHITE, iv.start_font_name)
         self.player.appear()
         self.enemy1.appear()
         self.enemy2.appear()
         self.enemy3.appear()
         pygame.display.update()
+
+    def postgame_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                print("pressed escape")
+                self.running = False
+
+    def postgame_draw(self):
+        self.screen.fill(iv.intro_scr_color)
+        self.game_text('GAME OVER', self.screen,
+                       [iv.swidth // 2, iv.mwidth // 2 + 50],
+                       30, iv.WHITE, iv.start_font_name)
+        self.game_text('SCORE: {}'.format(self.player.current_score), self.screen,
+                       [iv.swidth // 2, iv.mwidth // 2 - 50],
+                       30, iv.WHITE, iv.start_font_name)
+        pygame.display.update()
+
+    def postgame_update(self):
+        pass

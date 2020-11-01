@@ -13,8 +13,8 @@ collumns = 25
 FPS = 60
 
 # color
-intro_scr_color = (55, 60, 0)
-ingame_scr_color = (20, 55, 25)
+intro_scr_color = (106, 135, 222)
+ingame_scr_color = (0, 0, 0)
 grid_colour = (107, 107, 107)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
@@ -31,7 +31,7 @@ start_font_name = 'arial black'
 
 # player settings
 # PLAYER_START_POS = vec(35, 35)
-PLAYER_START_POS = vec(10.5, 10.5)
+PLAYER_START_POS = vec(11.5, 12.5)
 PLAYER_COLOUR = (190, 194, 15)
 
 # ENEMY

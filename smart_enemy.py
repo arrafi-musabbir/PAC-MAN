@@ -1,6 +1,5 @@
 import pygame
 import random
-import GAME
 import ingame_variables as iv
 vec = pygame.math.Vector2
 
@@ -53,12 +52,15 @@ class Enemy:
         return False
 
     def move(self):
-        if self.set_personality() == "bfs":
-            self.direction = self.get_bfs([int(self.grid_pos.x), int(self.grid_pos.y)], [
-                                          int(self.Game.player.grid_pos[0]), int(self.Game.player.grid_pos[1])])
-        elif self.set_personality() == "dfs":
-            self.direction = self.get_bfs([int(self.grid_pos.x), int(self.grid_pos.y)], [
-                                          int(self.Game.player.grid_pos[0]), int(self.Game.player.grid_pos[1])])
+        try:
+            if self.set_personality() == "bfs":
+                self.direction = self.get_bfs([int(self.grid_pos.x), int(self.grid_pos.y)], [
+                                              int(self.Game.player.grid_pos[0]), int(self.Game.player.grid_pos[1])])
+            elif self.set_personality() == "dfs":
+                self.direction = self.get_bfs([int(self.grid_pos.x), int(self.grid_pos.y)], [
+                                              int(self.Game.player.grid_pos[0]), int(self.Game.player.grid_pos[1])])
+        except IndexError:
+            self.Game.game = "GameOver"
 
     def set_personality(self):
         if self.personality == "d":
@@ -147,4 +149,5 @@ class Enemy:
                     goal = step["current"]
                     shortest.insert(0, step["current"])
         nextdir = [shortest[1][0] - start[0], shortest[1][1] - start[1]]
+        print(nextdir)
         return vec(nextdir[0], nextdir[1])
